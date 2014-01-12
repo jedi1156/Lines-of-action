@@ -5,6 +5,7 @@
 package put.ai.snort.snortsnortplayer;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Random;
 
@@ -18,26 +19,10 @@ public class SnortSnort extends Player {
 
     @Override
     public String getName() {
-        return "Aleksander Wdowiński 106525,\n"
-        		+ "Michał Ślusarczyk 106643 (Gracz typu Snort-Snort. Tak rodzi się legenda.)";
-    }/*
-    @Override
-    public Move nextMove(Board b) {
-        List<Move> moves = b.getMovesFor(getColor());
-        int max = - boardSize;
-        Move best = null;
-        for(Move move : moves) {
-                b.doMove(move);
-                int heur = heuristic(b, getColor());
-                if (max<heur) {
-                        max = heur;
-                        best = move;
-                }
-                
-                b.undoMove(move);
-        }
-        return best;
-    }*/
+        return "Mistrzyni Świata zawodów w Lines Of Action - Sandra Żrałka 106595\n"
+        		+ "Przypadek? Nie sądzę...";
+    }
+
     int boardSize;
     @Override
     public Move nextMove(Board b) {
@@ -60,7 +45,7 @@ public class SnortSnort extends Player {
         while(!movesQueue.isEmpty()) {
         	move = movesQueue.poll().move;
         	b.doMove(move);
-        	alfa = opAlphabeta(b,depth - 1, alfa, beta, opColor);
+        	alfa = alphabeta(b,depth - 1, alfa, beta, opColor);
         	if (max<alfa) {
         		max = alfa;
         		best = move;
@@ -72,7 +57,6 @@ public class SnortSnort extends Player {
     }
 
     public int alphabeta(Board b, int depth, int alfa, int beta, Color color){
-    	//if(true) return 0;
         if (b.getMovesFor(color).size() == 0) {
         	if (color == getColor())
         		return -boardSize;
@@ -108,65 +92,43 @@ public class SnortSnort extends Player {
         }
     }
 
-    public int opAlphabeta(Board b, int depth, int alfa, int beta, Color color){
-        if (b.getMovesFor(color).size() == 0) {
-        	if (color == getColor())
-        		return -boardSize;
-        	else
-        		return boardSize;
-        }
-        else if (depth == 0) {
-            return heuristic(b, getOpponent(color));
-        }
-        else if (color == getColor()) {
-        	List<Move> moves = b.getMovesFor(color);
-        	PriorityQueue<HeuristicMove> movesQueue = new PriorityQueue<HeuristicMove>(moves.size(), new HeuristicMoveComparator());
-            for (Move move: moves) {
-            	b.doMove(move);
-            	movesQueue.add(new HeuristicMove(heuristic(b,color), move));
-            	b.undoMove(move);
-            }
-            Move move;
-            while(!movesQueue.isEmpty()) {
-            	move = movesQueue.poll().move;
-            	b.doMove(move);
-                alfa = Math.max(alfa, opAlphabeta(b, depth - 1, alfa, beta, getOpponent(color)));
-                b.undoMove(move);
-                if (beta <= alfa){
-                	movesQueue.clear();
-                    break;
-                }
-            }
-            return alfa;
-        }
-        else {
-        	List<Move> moves = b.getMovesFor(color);
-        	PriorityQueue<HeuristicMove> movesQueue = new PriorityQueue<HeuristicMove>(moves.size(), new HeuristicMoveComparator());
-            for (Move move: moves) {
-            	b.doMove(move);
-            	movesQueue.add(new HeuristicMove(heuristic(b,getOpponent(color)), move));
-            	b.undoMove(move);
-            }
-            Move move;
-            while(!movesQueue.isEmpty()) {
-            	move = movesQueue.poll().move;
-                b.doMove(move);
-                beta = Math.min(beta, opAlphabeta(b, depth - 1, alfa, beta, getOpponent(color)));
-                b.undoMove(move);
-                if (beta <= alfa){
-                    break;
-                }
-            }
-            return beta;
-        }
-    }
 
     public int heuristic (Board b, Color color) {
-        List<Move> myMoves = b.getMovesFor(color);
-        List<Move> opMoves = b.getMovesFor(getOpponent(color));
-        if (color == getColor())
-        	return myMoves.size() - opMoves.size();
-        else
-        	return opMoves.size() - myMoves.size();
+        ArrayList<Pawn> pawns = getPawnsForBoard(b);
+
+        double value = valueOfPawns(pawns, b.getSize());
+
+        if (color == Color.PLAYER1) {
+            return (int) -value;
+        }
+
+        return (int)value;
+
+    }
+
+    public ArrayList<Pawn> getPawnsForBoard (Board b) {
+        ArrayList<Pawn> result = new ArrayList<Pawn>();
+        int size = b.getSize();
+        for (int i = 0; i < size; ++i) {
+            for (int j = 0; j < size; ++j) {
+                Color color = b.getState(i, j);
+                if(color != Color.EMPTY) {
+                    result.add(new Pawn(i, j, color));
+                }
+            }
+        }
+        return result;
+    }
+
+    public double valueOfPawns(ArrayList<Pawn> pawns, int size) {
+        double res = 0.0;
+        for(Pawn p : pawns) {
+            if(p.color == Color.PLAYER1) {
+                res -= p.distanceFromMid(size);
+            } else {
+                res += p.distanceFromMid(size);
+            }
+        }
+        return res;
     }
 }

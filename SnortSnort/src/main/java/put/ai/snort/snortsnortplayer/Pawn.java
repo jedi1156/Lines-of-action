@@ -26,7 +26,7 @@ public class Pawn{
 		else{
 			dist = abs(mid-y);
 		}
-		return dist;
+		return dist * dist * dist;
 
 	}
 
@@ -38,5 +38,4 @@ public class Pawn{
 			return -a;
 		}
 	}
-
 }

@@ -1,3 +1,0 @@
-all:
-	maven install
-
