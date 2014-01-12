@@ -39,8 +39,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private JFileChooser fileDialog;
     private Player[] players;
-//    private BoardFactory boardFactory = new LoABoardFactory();
-    private BoardFactory boardFactory = new SnortBoardFactory();
+    private BoardFactory boardFactory = new LoABoardFactory();
+    // private BoardFactory boardFactory = new SnortBoardFactory();
 //    private BoardFactory boardFactory = new FissionBoardFactory();
 //    private BoardFactory boardFactory = new CleaveBoardFactory();
 //    private BoardFactory boardFactory = new DominionBoardFactory();
