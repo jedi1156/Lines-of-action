@@ -19,8 +19,7 @@ public class ZajPewPlayer extends Player {
 
     @Override
     public String getName() {
-        return "Mistrzyni Świata zawodów w Lines Of Action - Sandra Żrałka 106595\n"
-        		+ "Przypadek? Nie sądzę...";
+        return "Zajączkowski & Pewiński Team";
     }
 
     int boardSize;
