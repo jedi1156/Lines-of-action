@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package put.ai.snort.snortsnortplayer;
+package put.ai.snort.zajpewplayer;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package put.ai.snort.snortsnortplayer;
+package put.ai.snort.zajpewplayer;
 
 import put.ai.snort.game.Move;
 
