@@ -112,7 +112,7 @@ public class ZajPewPlayer extends Player {
         for (int i = 0; i < size; ++i) {
             for (int j = 0; j < size; ++j) {
                 if(color == b.getState(i, j)) {
-                    result.add(new Pawn(i, j, color));
+                    result.add(new Pawn(i, j));
                 }
             }
         }

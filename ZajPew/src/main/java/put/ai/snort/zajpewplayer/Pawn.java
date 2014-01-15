@@ -1,17 +1,14 @@
 package put.ai.snort.zajpewplayer;
 
-import put.ai.snort.game.Player.Color;
 import java.lang.*;
 
 public class Pawn{
 	int x;
 	int y;
-	Color color;
 
-	public Pawn(int x, int y, Color color) {
+	public Pawn(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.color = color;
 	}
 
 	public double distanceFromMid(int size) {
