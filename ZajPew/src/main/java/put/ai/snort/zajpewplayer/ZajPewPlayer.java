@@ -25,34 +25,34 @@ public class ZajPewPlayer extends Player {
     int boardSize;
     @Override
     public Move nextMove(Board b) {
-    	int depth = 4;
         List<Move> moves = b.getMovesFor(getColor());
-    	boardSize = b.getSize()*b.getSize();
-        int max = - boardSize-1;
-        Move best = null;
         
-        int alfa = - boardSize;
-        int beta = boardSize;
     	PriorityQueue<MoveWithValue> movesQueue = new PriorityQueue<MoveWithValue>(moves.size(), new MovesComparator());
         for (Move move : moves) {
         	b.doMove(move);
         	movesQueue.add(new MoveWithValue(-heuristic(b,getColor()), move));
         	b.undoMove(move);
         }
-        Move move;
+
+        Move bestMove = null;
         Color opColor = getOpponent(getColor());
+    	boardSize = (int)Math.pow(b.getSize(), 2);
+        int max = - (boardSize - 1);
+    	int depth = 4;
+        int beta = boardSize;
+        int alpha = - boardSize;
         while(!movesQueue.isEmpty()) {
-        	move = movesQueue.poll().move;
+        	Move move = movesQueue.poll().move;
         	b.doMove(move);
-        	alfa = alphaBeta(b,depth - 1, alfa, beta, opColor);
-        	if (max<alfa) {
-        		max = alfa;
-        		best = move;
+        	alpha = alphaBeta(b,depth - 1, alpha, beta, opColor);
+        	if (max<alpha) {
+        		max = alpha;
+        		bestMove = move;
         	}
 
         	b.undoMove(move);
         }
-        return best;
+        return bestMove;
     }
 
     public int alphaBeta(Board b, int depth, int alpha, int beta, Color color){
