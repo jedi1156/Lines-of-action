@@ -1,18 +1,18 @@
 package put.ai.snort.zajpewplayer;
 
-import put.ai.snort.game.Player.Color;
 import java.lang.*;
+import put.ai.snort.game.Player.Color;
 
 public class Pawn {
 	int x;
 	int y;
-	Color color;
+  Color color;
 
 	public Pawn(int x, int y, Color color) {
 		this.x = x;
 		this.y = y;
-		this.color = color;
-	}
+    this.color = color;
+  }
 
 	public int value(int size) {
 		int result = Math.min(sideValue(x, size), sideValue(y, size));
@@ -32,4 +32,8 @@ public class Pawn {
   		return 0;
   	}
 	}
+
+  public String toString() {
+    return "(" + x + ", " + y + "): " + colorValue();
+  }
 }

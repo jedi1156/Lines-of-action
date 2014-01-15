@@ -5,20 +5,17 @@
 package put.ai.snort.zajpewplayer;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.Random;
 
 import put.ai.snort.game.Board;
 import put.ai.snort.game.Move;
 import put.ai.snort.game.Player;
 
+
 public class ZajPewPlayer extends Player {
 	
 	public static void main(String []args) {
 	}
-
-    private Random random=new Random(0xdeadbeef);
 
     @Override
     public String getName() {
@@ -28,38 +25,39 @@ public class ZajPewPlayer extends Player {
     int boardSize;
     @Override
     public Move nextMove(Board b) {
-    	int depth = 4;
         List<Move> moves = b.getMovesFor(getColor());
-    	boardSize = b.getSize()*b.getSize();
-        int max = - boardSize-1;
-        Move best = null;
         
-        int alfa = - boardSize;
-        int beta = boardSize;
     	PriorityQueue<MoveWithValue> movesQueue = new PriorityQueue<MoveWithValue>(moves.size(), new MovesComparator());
         for (Move move : moves) {
         	b.doMove(move);
         	movesQueue.add(new MoveWithValue(-heuristic(b,getColor()), move));
         	b.undoMove(move);
         }
-        Move move;
+
+        Move bestMove = null;
         Color opColor = getOpponent(getColor());
+    	boardSize = (int)Math.pow(b.getSize(), 2);
+        int max = - (boardSize - 1);
+    	int depth = 4;
+        int beta = boardSize;
+        int alpha = - boardSize;
         while(!movesQueue.isEmpty()) {
-        	move = movesQueue.poll().move;
+        	Move move = movesQueue.poll().move;
         	b.doMove(move);
-        	alfa = alphaBeta(b,depth - 1, alfa, beta, opColor);
-        	if (max<alfa) {
-        		max = alfa;
-        		best = move;
+        	alpha = alphaBeta(b,depth - 1, alpha, beta, opColor);
+        	if (max<alpha) {
+        		max = alpha;
+        		bestMove = move;
         	}
 
         	b.undoMove(move);
         }
-        return best;
+        return bestMove;
     }
 
     public int alphaBeta(Board b, int depth, int alpha, int beta, Color color){
-        if (b.getMovesFor(color).size() == 0) {
+    	List<Move> moves = b.getMovesFor(color);
+        if (moves.size() == 0) {
         	if (color == getColor())
         		return -boardSize;
         	else
@@ -69,7 +67,7 @@ public class ZajPewPlayer extends Player {
             return heuristic(b, getOpponent(color));
         }
         else if (color == getColor()) {
-            for (Move move: b.getMovesFor(color)) {
+            for (Move move: moves) {
                 b.doMove(move);
                 alpha = Math.max(alpha, alphaBeta(b, depth - 1, alpha, beta, getOpponent(color)));
                 b.undoMove(move);
@@ -80,7 +78,7 @@ public class ZajPewPlayer extends Player {
             return alpha;
         }
         else {
-            for (Move move: b.getMovesFor(color)) {
+            for (Move move: moves) {
                 b.doMove(move);
                 beta = Math.min(beta, alphaBeta(b, depth - 1, alpha, beta, getOpponent(color)));
                 b.undoMove(move);
@@ -94,9 +92,7 @@ public class ZajPewPlayer extends Player {
 
 
     public int heuristic (Board b, Color color) {
-        ArrayList<Pawn> pawns = getPawnsForBoard(b);
-
-        int value = valueOfPawns(pawns, b.getSize());
+        int value = (new Pawns(b)).value();
 
         if (color == Color.PLAYER2) {
             return -value;
@@ -104,25 +100,4 @@ public class ZajPewPlayer extends Player {
         return value;
     }
 
-    public ArrayList<Pawn> getPawnsForBoard (Board b) {
-        ArrayList<Pawn> result = new ArrayList<Pawn>();
-        int size = b.getSize();
-        for (int i = 0; i < size; ++i) {
-            for (int j = 0; j < size; ++j) {
-                Color color = b.getState(i, j);
-                if(color != Color.EMPTY) {
-                    result.add(new Pawn(i, j, color));
-                }
-            }
-        }
-        return result;
-    }
-
-    public int valueOfPawns(ArrayList<Pawn> pawns, int size) {
-        int result = 0;
-        for(Pawn pawn : pawns) {
-            result += pawn.value(size);
-        }
-        return result;
-    }
 }
