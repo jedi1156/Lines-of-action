@@ -31,7 +31,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>put.ai.snort.zajpewplayer.ZajPew</mainClass>
+                            <mainClass>put.ai.snort.zajpewplayer.ZajPewPlayer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

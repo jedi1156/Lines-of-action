@@ -96,14 +96,12 @@ public class ZajPewPlayer extends Player {
     public int heuristic (Board b, Color color) {
         ArrayList<Pawn> pawns = getPawnsForBoard(b);
 
-        double value = valueOfPawns(pawns, b.getSize());
+        int value = valueOfPawns(pawns, b.getSize());
 
-        if (color == Color.PLAYER1) {
-            return (int) -value;
+        if (color == Color.PLAYER2) {
+            return -value;
         }
-
-        return (int)value;
-
+        return value;
     }
 
     public ArrayList<Pawn> getPawnsForBoard (Board b) {
@@ -120,15 +118,10 @@ public class ZajPewPlayer extends Player {
         return result;
     }
 
-    public double valueOfPawns(ArrayList<Pawn> pawns, int size) {
-        double result = 0.0;
+    public int valueOfPawns(ArrayList<Pawn> pawns, int size) {
+        int result = 0;
         for(Pawn pawn : pawns) {
-        	double distance = pawn.distanceFromMid(size);
-            if(pawn.color == Color.PLAYER1) {
-                result -= distance;
-            } else {
-                result += distance;
-            }
+            result += pawn.value(size);
         }
         return result;
     }

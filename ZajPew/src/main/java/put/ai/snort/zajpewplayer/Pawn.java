@@ -3,7 +3,7 @@ package put.ai.snort.zajpewplayer;
 import put.ai.snort.game.Player.Color;
 import java.lang.*;
 
-public class Pawn{
+public class Pawn {
 	int x;
 	int y;
 	Color color;
@@ -14,18 +14,22 @@ public class Pawn{
 		this.color = color;
 	}
 
-	public double distanceFromMid(int size) {
-		double mid;
-		double dist;
+	public int value(int size) {
+		int result = Math.min(sideValue(x, size), sideValue(y, size));
+		return colorValue() * result * result;
+	}
 
-		mid = (size-1) / 2.0;
-		
+	private int sideValue(int arg, int size) {
+		return (size - Math.abs((arg << 1) + 1 - size) - 1) >> 1;
+	}
 
-		if(Math.abs(mid-x) >= Math.abs(mid-y)) {
-			dist = Math.abs(mid-x);
-		} else{
-			dist = Math.abs(mid-y);
-		}
-		return dist * dist;
+	private int colorValue() {
+    if(color == Color.PLAYER1) {
+	   	return -1;
+    } else if(color == Color.PLAYER2) {
+	    return 1;
+  	} else {
+  		return 0;
+  	}
 	}
 }
