@@ -14,6 +14,9 @@ import put.ai.snort.game.Move;
 import put.ai.snort.game.Player;
 
 public class ZajPewPlayer extends Player {
+	
+	public static void main(String []args) {
+	}
 
     private Random random=new Random(0xdeadbeef);
 
