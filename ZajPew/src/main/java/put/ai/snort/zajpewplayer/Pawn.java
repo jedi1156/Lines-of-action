@@ -1,41 +1,31 @@
 package put.ai.snort.zajpewplayer;
 
 import put.ai.snort.game.Player.Color;
+import java.lang.*;
 
 public class Pawn{
 	int x;
 	int y;
 	Color color;
 
-	public Pawn( int x, int y, Color color){
+	public Pawn(int x, int y, Color color) {
 		this.x = x;
 		this.y = y;
 		this.color = color;
 	}
 
-	public double distanceFromMid(int size){
+	public double distanceFromMid(int size) {
 		double mid;
 		double dist;
 
-		mid = (size-1)/2.0;
+		mid = (size-1) / 2.0;
 		
 
-		if(abs(mid-x) >= abs(mid-y)){
-			dist = abs(mid-x);
+		if(Math.abs(mid-x) >= Math.abs(mid-y)) {
+			dist = Math.abs(mid-x);
+		} else{
+			dist = Math.abs(mid-y);
 		}
-		else{
-			dist = abs(mid-y);
-		}
-		return dist * dist * dist;
-
-	}
-
-	public static double abs(double a){
-		if (a >= 0) {
-			return a;
-		}
-		else{
-			return -a;
-		}
+		return dist * dist;
 	}
 }

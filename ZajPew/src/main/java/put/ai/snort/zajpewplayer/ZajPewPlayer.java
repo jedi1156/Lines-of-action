@@ -36,10 +36,10 @@ public class ZajPewPlayer extends Player {
         
         int alfa = - boardSize;
         int beta = boardSize;
-    	PriorityQueue<HeuristicMove> movesQueue = new PriorityQueue<HeuristicMove>(moves.size(), new HeuristicMoveComparator());
+    	PriorityQueue<MoveWithValue> movesQueue = new PriorityQueue<MoveWithValue>(moves.size(), new MovesComparator());
         for (Move move : moves) {
         	b.doMove(move);
-        	movesQueue.add(new HeuristicMove(-heuristic(b,getColor()), move));
+        	movesQueue.add(new MoveWithValue(-heuristic(b,getColor()), move));
         	b.undoMove(move);
         }
         Move move;
