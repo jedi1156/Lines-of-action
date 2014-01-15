@@ -123,14 +123,15 @@ public class ZajPewPlayer extends Player {
     }
 
     public double valueOfPawns(ArrayList<Pawn> pawns, int size) {
-        double res = 0.0;
-        for(Pawn p : pawns) {
-            if(p.color == Color.PLAYER1) {
-                res -= p.distanceFromMid(size);
+        double result = 0.0;
+        for(Pawn pawn : pawns) {
+        	double distance = pawn.distanceFromMid(size);
+            if(pawn.color == Color.PLAYER1) {
+                result -= distance;
             } else {
-                res += p.distanceFromMid(size);
+                result += distance;
             }
         }
-        return res;
+        return result;
     }
 }
