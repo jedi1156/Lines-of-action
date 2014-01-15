@@ -58,7 +58,7 @@ public class ZajPewPlayer extends Player {
         return best;
     }
 
-    public int alphaBeta(Board b, int depth, int alfa, int beta, Color color){
+    public int alphaBeta(Board b, int depth, int alpha, int beta, Color color){
         if (b.getMovesFor(color).size() == 0) {
         	if (color == getColor())
         		return -boardSize;
@@ -71,20 +71,20 @@ public class ZajPewPlayer extends Player {
         else if (color == getColor()) {
             for (Move move: b.getMovesFor(color)) {
                 b.doMove(move);
-                alfa = Math.max(alfa, alphaBeta(b, depth - 1, alfa, beta, getOpponent(color)));
+                alpha = Math.max(alpha, alphaBeta(b, depth - 1, alpha, beta, getOpponent(color)));
                 b.undoMove(move);
-                if (beta <= alfa){
+                if (beta <= alpha){
                     break;
                 }
             }
-            return alfa;
+            return alpha;
         }
         else {
             for (Move move: b.getMovesFor(color)) {
                 b.doMove(move);
-                beta = Math.min(beta, alphaBeta(b, depth - 1, alfa, beta, getOpponent(color)));
+                beta = Math.min(beta, alphaBeta(b, depth - 1, alpha, beta, getOpponent(color)));
                 b.undoMove(move);
-                if (beta <= alfa){
+                if (beta <= alpha){
                     break;
                 }
             }
