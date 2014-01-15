@@ -71,7 +71,6 @@ public class ZajPewPlayer extends Player {
         else if (color == getColor()) {
             for (Move move: b.getMovesFor(color)) {
                 b.doMove(move);
-                Move lastMove = move;
                 alfa = Math.max(alfa, alphaBeta(b, depth - 1, alfa, beta, getOpponent(color)));
                 b.undoMove(move);
                 if (beta <= alfa){
@@ -83,7 +82,6 @@ public class ZajPewPlayer extends Player {
         else {
             for (Move move: b.getMovesFor(color)) {
                 b.doMove(move);
-                Move lastMove = move;
                 beta = Math.min(beta, alphaBeta(b, depth - 1, alfa, beta, getOpponent(color)));
                 b.undoMove(move);
                 if (beta <= alfa){
