@@ -7,7 +7,6 @@ package put.ai.snort.zajpewplayer;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.Random;
 
 import put.ai.snort.game.Board;
 import put.ai.snort.game.Move;
@@ -17,8 +16,6 @@ public class ZajPewPlayer extends Player {
 	
 	public static void main(String []args) {
 	}
-
-    private Random random=new Random(0xdeadbeef);
 
     @Override
     public String getName() {
