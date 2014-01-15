@@ -47,7 +47,7 @@ public class ZajPewPlayer extends Player {
         while(!movesQueue.isEmpty()) {
         	move = movesQueue.poll().move;
         	b.doMove(move);
-        	alfa = alphabeta(b,depth - 1, alfa, beta, opColor);
+        	alfa = alphaBeta(b,depth - 1, alfa, beta, opColor);
         	if (max<alfa) {
         		max = alfa;
         		best = move;
@@ -58,7 +58,7 @@ public class ZajPewPlayer extends Player {
         return best;
     }
 
-    public int alphabeta(Board b, int depth, int alfa, int beta, Color color){
+    public int alphaBeta(Board b, int depth, int alfa, int beta, Color color){
         if (b.getMovesFor(color).size() == 0) {
         	if (color == getColor())
         		return -boardSize;
@@ -71,8 +71,8 @@ public class ZajPewPlayer extends Player {
         else if (color == getColor()) {
             for (Move move: b.getMovesFor(color)) {
                 b.doMove(move);
-                Move last_move = move;
-                alfa = Math.max(alfa, alphabeta(b, depth - 1, alfa, beta, getOpponent(color)));
+                Move lastMove = move;
+                alfa = Math.max(alfa, alphaBeta(b, depth - 1, alfa, beta, getOpponent(color)));
                 b.undoMove(move);
                 if (beta <= alfa){
                     break;
@@ -83,8 +83,8 @@ public class ZajPewPlayer extends Player {
         else {
             for (Move move: b.getMovesFor(color)) {
                 b.doMove(move);
-                Move last_move = move;
-                beta = Math.min(beta, alphabeta(b, depth - 1, alfa, beta, getOpponent(color)));
+                Move lastMove = move;
+                beta = Math.min(beta, alphaBeta(b, depth - 1, alfa, beta, getOpponent(color)));
                 b.undoMove(move);
                 if (beta <= alfa){
                     break;
