@@ -56,7 +56,8 @@ public class ZajPewPlayer extends Player {
     }
 
     public int alphaBeta(Board b, int depth, int alpha, int beta, Color color){
-        if (b.getMovesFor(color).size() == 0) {
+    	List<Move> moves = b.getMovesFor(color);
+        if (moves.size() == 0) {
         	if (color == getColor())
         		return -boardSize;
         	else
@@ -66,7 +67,7 @@ public class ZajPewPlayer extends Player {
             return heuristic(b, getOpponent(color));
         }
         else if (color == getColor()) {
-            for (Move move: b.getMovesFor(color)) {
+            for (Move move: moves) {
                 b.doMove(move);
                 alpha = Math.max(alpha, alphaBeta(b, depth - 1, alpha, beta, getOpponent(color)));
                 b.undoMove(move);
@@ -77,7 +78,7 @@ public class ZajPewPlayer extends Player {
             return alpha;
         }
         else {
-            for (Move move: b.getMovesFor(color)) {
+            for (Move move: moves) {
                 b.doMove(move);
                 beta = Math.min(beta, alphaBeta(b, depth - 1, alpha, beta, getOpponent(color)));
                 b.undoMove(move);
