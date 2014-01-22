@@ -24,7 +24,7 @@ public class Pawn {
   }
 
   private int sideValue(int arg, int size) {
-    return Math.abs((arg * 2) + 1 - size)
+    return Math.abs((arg * 2) + 1 - size);
   }
 
 
