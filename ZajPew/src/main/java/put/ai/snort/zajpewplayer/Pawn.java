@@ -14,14 +14,19 @@ public class Pawn {
     this.color = color;
   }
 
-	public int value(int size) {
-		int result = Math.min(sideValue(x, size), sideValue(y, size));
-		return colorValue() * result * result;
-	}
+  public int value(int size) {
+    int result = Math.min(sideValue(x, size), sideValue(y, size));
+    result /= 2;
+    result *= -result;
+    size = (size - 1) / 2;
+    size *= size;
+    return result + size;
+  }
 
-	private int sideValue(int arg, int size) {
-		return (size - Math.abs((arg << 1) + 1 - size) - 1) >> 1;
-	}
+  private int sideValue(int arg, int size) {
+    return Math.abs((arg * 2) + 1 - size)
+  }
+
 
 	private int colorValue() {
     if(color == Color.PLAYER1) {
